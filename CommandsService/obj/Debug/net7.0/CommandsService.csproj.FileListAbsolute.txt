@@ -42,3 +42,4 @@ C:\dev\estudos\microservices\CommandsService\obj\Debug\net7.0\refint\CommandsSer
 C:\dev\estudos\microservices\CommandsService\obj\Debug\net7.0\CommandsService.pdb
 C:\dev\estudos\microservices\CommandsService\obj\Debug\net7.0\CommandsService.genruntimeconfig.cache
 C:\dev\estudos\microservices\CommandsService\obj\Debug\net7.0\ref\CommandsService.dll
+C:\dev\estudos\microservices\CommandsService\bin\Debug\net7.0\RabbitMQ.Client.dll

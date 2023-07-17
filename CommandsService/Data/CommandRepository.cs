@@ -1,4 +1,5 @@
 ﻿using CommandsService.Models;
+using System;
 
 namespace CommandsService.Data
 {
@@ -44,7 +45,10 @@ namespace CommandsService.Data
         {
             return _dbContext.Commands.FirstOrDefault(c => c.Id == commandId && c.PlatformId == platformId);
         }
-
+        public bool ExternalPlatformExists(int externalPlatformId)
+        {
+            return _dbContext.Platforms.Any(p => p.ExternalId == externalPlatformId);
+        }
         public bool PlatformExists(int platformId)
         {
             return _dbContext.Platforms.Any(p => p.Id == platformId);

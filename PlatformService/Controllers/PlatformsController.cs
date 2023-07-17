@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PlatformService.AsyncDataServices;
 using PlatformService.Data.Interfaces;
 using PlatformService.Dtos;
 using PlatformService.Models;
+using PlatformService.Models.Enums;
 using PlatformService.SyncDataServices.Http;
 
 namespace PlatformService.Controllers
@@ -14,15 +16,18 @@ namespace PlatformService.Controllers
         private readonly IPlatformRepository _platformRepository;
         private readonly IMapper _mapper;
         private readonly ICommandDataClient _commandDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
         public PlatformsController(
             IPlatformRepository platformRepository, 
             IMapper mapper, 
-            ICommandDataClient commandDataClient)
+            ICommandDataClient commandDataClient,
+            IMessageBusClient messageBusClient)
         {
             _platformRepository = platformRepository;
             _mapper = mapper;
             _commandDataClient = commandDataClient;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -48,6 +53,7 @@ namespace PlatformService.Controllers
 
             var createdModel = _mapper.Map<PlatformReadDto>(model);
 
+            // Envio de mensagem (sincrona) para o CommandService via http.
             try
             {
                 await _commandDataClient.SendPlatformTocommand(createdModel);
@@ -55,6 +61,21 @@ namespace PlatformService.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"--> Could not send synchronously {ex.Message}. ");
+            }
+
+            // Envio de mensagem (assincrona) para o CommandService via RabbitMQ (bus)
+            try
+            {
+                var platformPublished = _mapper.Map<PlatformPublishedDto>(createdModel);
+                
+                // É interessante documentar os tipos de eventos que podem acontecer dentro do seu app.
+                platformPublished.Event = Event.PlatformPublished;
+
+                _messageBusClient.PublishNewPlatform(platformPublished);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"--> Could not send asynchronously {ex.Message}. ");
             }
 
             return CreatedAtRoute(nameof(GetPlatformById), new { createdModel.Id }, createdModel);
