@@ -1,0 +1,13 @@
+# Persistent volume claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mssql-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 200Mi
+
+# kubectl create secret generic mssql --from-literal=SA_PASSWORD="Metallica1596689..."
