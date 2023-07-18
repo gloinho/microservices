@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Server.Kestrel;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using PlatformService.AsyncDataServices;
 using PlatformService.Data;
 using PlatformService.Data.Interfaces;
 using PlatformService.SyncDataServices.Grpc;
 using PlatformService.SyncDataServices.Http;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,8 +46,23 @@ builder.Services.AddScoped<IPlatformRepository, PlatformRepository>();
 builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
 builder.Services.AddSingleton<IMessageBusClient, MessageBusClient>();
 builder.Services.AddGrpc();
-
 #endregion
+
+if (builder.Environment.IsProduction())
+{
+    builder.WebHost.UseKestrel(options =>
+    {
+        options.ListenAnyIP(666, listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http2;
+        });
+
+        options.ListenAnyIP(80, listenOptions =>
+        {
+            listenOptions.Protocols = HttpProtocols.Http1;
+        });
+    });
+}
 
 var app = builder.Build();
 
@@ -68,11 +86,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.MapGrpcService<GrpcPlatformService>();
-//app.MapGet("/Protos/platforms.proto", async context =>
-//{
-//    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
-//});
+
+app.MapGet("/Protos/platforms.proto", async context =>
+{
+    await context.Response.WriteAsync(File.ReadAllText("Protos/platforms.proto"));
+});
+
 app.Run();
 
 
