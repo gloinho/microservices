@@ -34,6 +34,9 @@ bld/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
+./PlatformService/.vs/
+./CommandsService/.vs/
+
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -72,35 +75,63 @@ ScaffoldingReadMe.txt
 StyleCopReport.xml
 
 # Files built by Visual Studio
-*_i.c
-*_p.c
-*_h.h
-*.ilk
-*.meta
-*.obj
-*.iobj
-*.pch
-*.pdb
-*.ipdb
-*.pgc
-*.pgd
-*.rsp
-*.sbr
-*.tlb
-*.tli
-*.tlh
-*.tmp
-*.tmp_proj
-*_wpftmp.csproj
-*.log
-*.tlog
-*.vspscc
-*.vssscc
-.builds
-*.pidb
-*.svclog
-*.scc
+./CommandsService/*_i.c
+./CommandsService/*_p.c
+./CommandsService/*_h.h
+./CommandsService/*.ilk
+./CommandsService/*.meta
+./CommandsService/*.obj
+./CommandsService/*.iobj
+./CommandsService/*.pch
+./CommandsService/*.pdb
+./CommandsService/*.ipdb
+./CommandsService/*.pgc
+./CommandsService/*.pgd
+./CommandsService/*.rsp
+./CommandsService/*.sbr
+./CommandsService/*.tlb
+./CommandsService/*.tli
+./CommandsService/*.tlh
+./CommandsService/*.tmp
+./CommandsService/*.tmp_proj
+./CommandsService/*_wpftmp.csproj
+./CommandsService/*.log
+./CommandsService/*.tlog
+./CommandsService/*.vspscc
+./CommandsService/*.vssscc
+./CommandsService/.builds
+./CommandsService/*.pidb
+./CommandsService/*.svclog
+./CommandsService/*.scc
 
+./PlatformService/*_i.c
+./PlatformService/*_p.c
+./PlatformService/*_h.h
+./PlatformService/*.ilk
+./PlatformService/*.meta
+./PlatformService/*.obj
+./PlatformService/*.iobj
+./PlatformService/*.pch
+./PlatformService/*.pdb
+./PlatformService/*.ipdb
+./PlatformService/*.pgc
+./PlatformService/*.pgd
+./PlatformService/*.rsp
+./PlatformService/*.sbr
+./PlatformService/*.tlb
+./PlatformService/*.tli
+./PlatformService/*.tlh
+./PlatformService/*.tmp
+./PlatformService/*.tmp_proj
+./PlatformService/*_wpftmp.csproj
+./PlatformService/*.log
+./PlatformService/*.tlog
+./PlatformService/*.vspscc
+./PlatformService/*.vssscc
+./PlatformService/.builds
+./PlatformService/*.pidb
+./PlatformService/*.svclog
+./PlatformService/*.scc
 # Chutzpah Test files
 _Chutzpah*
 
@@ -116,10 +147,14 @@ ipch/
 *.VC.VC.opendb
 
 # Visual Studio profiler
-*.psess
-*.vsp
-*.vspx
-*.sap
+./CommandsService/*.psess
+./CommandsService/*.vsp
+./CommandsService/*.vspx
+./CommandsService/*.sap
+./PlatformService/*.psess
+./PlatformService/*.vsp
+./PlatformService/*.vspx
+./PlatformService/*.sap
 
 # Visual Studio Trace Files
 *.e2e
